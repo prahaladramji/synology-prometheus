@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    links:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${PROMETHEUS_ROOT}/configs/grafana.ini:/etc/grafana/grafana.ini
+      - ${PROMETHEUS_ROOT}/data/grafana:/var/lib/grafana
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    links:
+      - alertmanager
+      - node-exporter
+    ports:
+      - "9090:9090"
+    volumes:
+      - ${PROMETHEUS_ROOT}/configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${PROMETHEUS_ROOT}/data/prometheus:/prometheus
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    restart: always
+    ports:
+      - "9093:9093"
+    volumes:
+      - ${PROMETHEUS_ROOT}/data/alertmanager:/alertmanager
+
+  node-exporter:
+    privileged: true
+    image: prom/node-exporter
+    container_name: node-exporter
+    restart: always
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.ignored-mount-points"
+      - "^/(rootfs/)?(dev|etc|host|proc|run|sys|volume1)($$|/)"
