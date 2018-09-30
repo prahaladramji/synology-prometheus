@@ -1,7 +1,10 @@
-# Dependencies
-Depends on [Synology Docker](https://www.synology.com/en-global/dsm/packages/Docker) package already installed.
+## Dependencies
+- [Synology Docker](https://www.synology.com/en-global/dsm/packages/Docker) package already installed.
+- SSH access to synology.
+- Administrator user access.
 
-# Install
+
+### Install
 ```bash
 curl -fsSL https://raw.githubusercontent.com/prahaladramji/synology-prometheus/master/setup | sudo sh
 ```
