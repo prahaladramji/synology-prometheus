@@ -9,6 +9,9 @@ for i in "${folders[@]}"; do
   && echo "folder created ${PROMETHEUS_ROOT}/${i}"
 done
 
+chown -R 65534:65534 ${PROMETHEUS_ROOT}/data/prometheus #nobody userid
+chown -R 472:472 ${PROMETHEUS_ROOT}/data/grafana #grafana userid
+
 configs=( "grafana.ini" "prometheus.yml" )
 for i in "${configs[@]}"; do
   curl -fsSL https://raw.githubusercontent.com/prahaladramji/synology-prometheus/master/configs/${i} -o ${PROMETHEUS_ROOT}/configs/${i}
