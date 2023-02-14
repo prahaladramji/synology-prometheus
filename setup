@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-DOCKER_VOLUME="/volume1/docker"
+DOCKER_VOLUME="/volume2/docker"
 PROMETHEUS_ROOT="${DOCKER_VOLUME}/prometheus"
 
 folders=( "configs" "data/alertmanager" "data/grafana" "data/prometheus" )
